@@ -52,13 +52,12 @@ for f in fases:
 # Neste caso, todas as variáveis são maximizadas.
 prob += lpSum(vs.values())
 
-# same professsor can't be in more than 1 place
-for p in profs:
-    for h in horarios:
-        prob += lpSum(vs[(p, f, h)] for f in fases) <= 1, ("time constraint for %d %s" % (p, str(h)))
+# O mesmo professor não pode estar em mais de um horário ao mesmo tempo.
+for h in horarios:
+    prob += lpSum(vs[(p, f, h)] for f in fases for p in profs) <= 1, ("time space law for %d %s" % (p, str(h)))
 
 
-# adding maximum time for ccrs
+# Adicionando a contraint de que os turnos das CCRs precisam ser ocupados.
 for p in profs:
     for f in fases:
         for t in turnos:
