@@ -57,6 +57,12 @@ for h in horarios:
     prob += lpSum(vs[(p, f, h)] for f in fases for p in profs) <= 1, ("time space law for %d %s" % (p, str(h)))
 
 
+# O a mesma fase e o mesmo turno nao podem estar em mais de um lugar ao mesmo tempo.
+
+for f in fases:
+    for h in horarios:
+        prob += lpSum(vs[(p, f, h)] for p in profs) <= 1
+
 # Adicionando a contraint de que os turnos das CCRs precisam ser ocupados.
 for p in profs:
     for f in fases:
